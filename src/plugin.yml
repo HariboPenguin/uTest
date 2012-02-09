@@ -1,0 +1,12 @@
+name: uTest
+main: me.HariboPenguin.uTest.uTest
+version: 1.0
+author: HariboPenguin
+description: UMC Guest Application System
+commands:
+  ut:
+    description: Access uTest Commands
+    usage: /ut help
+  utest:
+    description: Access uTest Commands
+    usage: /utest help

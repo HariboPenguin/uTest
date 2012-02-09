@@ -1,0 +1,23 @@
+# default config.yml
+
+results-per-page: 10
+
+use-mysql: false
+
+mysql:
+  hostname: localhost
+  port: 3306
+  database: uTest
+  username: minecraft
+  password: minecraft
+
+manage-applications: false
+
+quiz-settings:
+  number-of-questions: 4
+
+quiz-questions:
+  - Q1
+  - Q2
+  - Q3
+  - Q4
