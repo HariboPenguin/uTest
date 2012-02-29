@@ -3,6 +3,7 @@ main: me.HariboPenguin.uTest.uTest
 version: 1.0
 author: HariboPenguin
 description: UMC Guest Application System
+depend: [Vault]
 commands:
   ut:
     description: Access uTest Commands
@@ -10,3 +11,6 @@ commands:
   utest:
     description: Access uTest Commands
     usage: /utest help
+  answer:
+    description: Answer test questions
+    usage: /answer [answer]

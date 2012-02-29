@@ -13,8 +13,14 @@ mysql:
 
 manage-applications: false
 
+when-test-approved:
+  promote: true
+  member-group: members
+  broadcast: true
+  broadcast-message: Congratulations to <player> for becoming a member!
+
 quiz-settings:
-  number-of-questions: 4
+  max-attempts: 3
 
 quiz-questions:
   - Q1
