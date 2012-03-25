@@ -1,5 +1,6 @@
-# default config.yml
+# uTest v1.0 - Config File
 
+#How many reports should be shown per page
 results-per-page: 10
 
 use-mysql: false

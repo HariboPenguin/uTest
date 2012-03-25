@@ -17,6 +17,7 @@ public class uTest extends JavaPlugin {
     public MySQL dbManageMySQL;
     private uTestCommandHandler uTestExecutor;
     private uTestQuestioner uTestQuestioner;
+    private uTestListener uTestListener = new uTestListener(this);
     public uTestSQLDataHandler sqldh = new uTestSQLDataHandler(this);
     public uTestSQLiteDataHandler sqlidh = new uTestSQLiteDataHandler(this);
     public String prefix = ChatColor.DARK_PURPLE + "[" + ChatColor.GOLD + "uTest" + ChatColor.DARK_PURPLE + "] ";
@@ -61,6 +62,8 @@ public class uTest extends JavaPlugin {
             this.log.info("[" + pdfFile.getName() + "] Using SQLite for database!");
             initSQLite();
         }
+        
+        getServer().getPluginManager().registerEvents(uTestListener, this);
 
         uTestExecutor = new uTestCommandHandler(this);
         uTestQuestioner = new uTestQuestioner(this);
@@ -92,9 +95,11 @@ public class uTest extends JavaPlugin {
         String appsTable = "CREATE TABLE IF NOT EXISTS `" + database + "`.`applications` (`id` INT NOT NULL AUTO_INCREMENT,`applicationdate` DATETIME ,`applicationtime` TIME ,`applicant` VARCHAR(30) NOT NULL ,`TimePlayed` VARCHAR(30) NOT NULL ,`bannedcheck` INT ,`singleplayercheck` INT ,`multiplayercheck` INT ,`referrer` VARCHAR(50) ,`message` TEXT NOT NULL ,PRIMARY KEY (`id`) )";
         String quizTable = "CREATE  TABLE IF NOT EXISTS `" + database + "`.`quizzes` (`id` INT NOT NULL AUTO_INCREMENT ,`testdate` DATE NOT NULL ,`testtime` TIME NOT NULL ,`applicant` VARCHAR(30) NOT NULL ,PRIMARY KEY (`id`) );";
         String trackerTable = "CREATE  TABLE IF NOT EXISTS `" + database + "`.`tracker` (`id` INT NOT NULL AUTO_INCREMENT ,`applicant` VARCHAR(45) NOT NULL ,`status` VARCHAR(45) NOT NULL ,`quizattempt` INT NULL DEFAULT 0 ,PRIMARY KEY (`id`) )";
+        String appArchiveTable = "CREATE TABLE IF NOT EXISTS `" + database + "`.`applications` (`id` INT NOT NULL AUTO_INCREMENT,`applicationdate` DATETIME ,`applicationtime` TIME ,`applicant` VARCHAR(30) NOT NULL ,`TimePlayed` VARCHAR(30) NOT NULL ,`bannedcheck` INT ,`singleplayercheck` INT ,`multiplayercheck` INT ,`referrer` VARCHAR(50) ,`message` TEXT NOT NULL ,PRIMARY KEY (`id`) )";
         dbManageMySQL.createTable(appsTable);
         dbManageMySQL.createTable(quizTable);
         dbManageMySQL.createTable(trackerTable);
+        dbManageMySQL.createTable(appArchiveTable);
 
         int questionCount = 1;
 

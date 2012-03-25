@@ -427,4 +427,30 @@ public class uTestSQLDataHandler {
             return false;
         }
     }
+    
+    public boolean approveApplication(String applicant) throws SQLException {
+        
+        String database = plugin.getConfig().getString("mysql.database");
+        
+        String transferquery = "INSERT INTO `" + database + "`.`appArchive` SELECT * FROM `" + database + "`.`applications` WHERE `applicant` = '" + applicant + "'";
+        String removequery = "DELETE FROM `" + database + "`.`applications` WHERE `applicant` = '" + applicant + "'";
+        String statusQuery = "UPDATE `" + database + "`.`tracker` SET `status` = 'Approved' WHERE `applicant` = '" + applicant + "'";
+        plugin.dbManageMySQL.query(transferquery);
+        plugin.dbManageMySQL.query(removequery);
+        plugin.dbManageMySQL.query(statusQuery);
+        
+        return true;
+    }
+    
+    public boolean rejectApplication(String applicant) throws SQLException {
+        
+        String database = plugin.getConfig().getString("mysql.database");
+        
+        String query = "";
+        String statusQuery = "";
+        String appQuery = "";
+        plugin.dbManageMySQL.query(query);
+        
+        return true;
+    }
 }

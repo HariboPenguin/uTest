@@ -324,13 +324,15 @@ public class uTestCommandHandler implements CommandExecutor {
                                 sender.sendMessage(plugin.prefix + ChatColor.GREEN + playerToApprove.getName() + " has been promoted to member!");
                                 playerToApprove.sendMessage(plugin.prefix + ChatColor.GREEN + "Congratulations! Your member application has been accepted and you have been promoted!");
                                 
+                                plugin.sqldh.approveApplication(playerToApprove.getName());
+                                
                                 if (plugin.getConfig().getBoolean("when-test-approved.broadcast")) {
                                     
                                     String message = plugin.getConfig().getString("when-test-approved.broadcast-message");
                                     
-                                    message.replaceAll("<player>", playerToApprove.getName());
+                                    message = message.replaceAll("<player>", playerToApprove.getName());
                                     
-                                    plugin.getServer().broadcastMessage(message);
+                                    plugin.getServer().broadcastMessage(plugin.prefix + ChatColor.LIGHT_PURPLE + message);
                                 }
                                 
                                 return true;
@@ -351,13 +353,43 @@ public class uTestCommandHandler implements CommandExecutor {
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("reject")) {
+                
+                if (args.length == 2) {
+                    
+                    if (Bukkit.getServer().getPlayer(args[1]) != null) {
+                        try {
+                            Player playerToReject = Bukkit.getServer().getPlayer(args[1]);
+                            
+                            if (plugin.sqldh.checkIfPlayerCompletedTest(playerToReject.getName())) {
+                                
+                                playerToReject.sendMessage(plugin.prefix + ChatColor.RED + "Your application has been rejected!");
+                                sender.sendMessage(plugin.prefix + ChatColor.RED + playerToReject + "'s application has been rejected");
+                                
+                            } else if (!plugin.sqldh.checkIfPlayerCompletedTest(playerToReject.getName())) {
+                                sender.sendMessage(plugin.prefix + ChatColor.RED + playerToReject + " has not completed the test!");
+                            }
+                        } catch (SQLException ex) {
+                            Logger.getLogger(uTestCommandHandler.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                    }
+                    
+                } else if (args.length == 1) {
+                    sender.sendMessage(plugin.prefix + ChatColor.RED + "Not enough arguments! - Correct usage is /utest approve [Player]");
+                    return true;
+                } else {
+                    sender.sendMessage(plugin.prefix + ChatColor.RED + "Too many aguments! - Correct usage is /utest approve [Player]");
+                    return true;
+                }
+                
             } else if (args[0].equalsIgnoreCase("hold")) {
             } else if (args[0].equalsIgnoreCase("help")) {
                 helpHandler.HelpMenu(sender);
                 return true;
             }
         } else {
-            sender.sendMessage("uTest main help menu here");
+            helpHandler.HelpMenu(sender);
+            return true;
         }
         return false;
     }
